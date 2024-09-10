@@ -1,5 +1,8 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Shape.hpp>
+#include "kinematics.h"
+#include "customPhysics.h"
 
 int main()
 {
@@ -11,6 +14,11 @@ int main()
     sf::CircleShape circle(50.0f);
     circle.setFillColor(sf::Color::Blue);
     circle.setPosition(375,275);
+
+    float x_pos;
+    double time = 1;
+
+    customPhysicsObject obj(10,0);
 
     while (window.isOpen())
     {
@@ -25,7 +33,22 @@ int main()
         window.clear(sf::Color::Black);
 
 
+        x_pos = circle.getPosition().y;
+
+
+        circle.setPosition(circle.getPosition().x,update_x_pos(x_pos,obj,time));
+
         window.draw(circle);
+
+        time += 0.01;
+
+        //std::cout << x_pos << std::endl;
+        std::cout << time << std::endl;
+
+        if(circle.getPosition().y > 1080) {
+            circle.setPosition(circle.getPosition().x,1);
+            time = 0;
+        }
 
         window.display();
     }

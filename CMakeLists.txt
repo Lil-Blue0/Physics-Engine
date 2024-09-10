@@ -21,7 +21,9 @@ FetchContent_MakeAvailable(SFML)
 # Add executable for your main.cpp
 add_executable(main src/main.cpp
         src/customPhysics.cpp
-        src/customPhysics.h)
+        src/customPhysics.h
+        src/kinematics.h
+        src/Kinematics.cpp)
 
 # Link SFML graphics, window, and system modules
 target_link_libraries(main PRIVATE sfml-graphics sfml-window sfml-system)

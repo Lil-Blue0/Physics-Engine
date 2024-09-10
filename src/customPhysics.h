@@ -7,22 +7,19 @@
 
 
 
-class customPhysics {
+class customPhysicsObject {
 
 private:
-    const double mass;
-    double accelertation;
-    double velocity;
-    const double gravity = 9.81;
-    double force;
-
+    const double mass_;
+    const double gravity_ = 9.81;
+    double forceGravity_;
+    double velocity_;
 
 public:
-    double getMass() const;
-    static void setMass(double mass);
-    double accelerationGravity();
-    void applyForce(double force);
-    double gravityForce();
+
+    customPhysicsObject(double mass, double velocity);
+    double getvelocity();
+    double getGravity();
 
 };
 

@@ -5,22 +5,16 @@
 #include "customPhysics.h"
 
 
-double customPhysics::getMass() const {
-    return mass;
+customPhysicsObject::customPhysicsObject(double mass, double velocity)
+    : mass_(mass), velocity_(velocity), forceGravity_(gravity_ * mass) {
+    // Initialization is handled by the initializer list.
 }
-
-void customPhysics::setMass(double mass) {
-    mass = mass;
-}
-
-double customPhysics::gravityForce() {
-    return gravity * mass;
-}
-
-void customPhysics::applyForce(double force) {
-
+double customPhysicsObject::getvelocity() {
+    return velocity_;
 }
 
 
-
+double customPhysicsObject::getGravity() {
+    return gravity_;
+}
 
