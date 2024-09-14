@@ -9,15 +9,17 @@ int main()
     window.setFramerateLimit(144);
 
     sf::Font font;
-    if (!font.loadFromFile("Roboto-Black.ttf")) {
+    if (!font.loadFromFile("SUSE-VariableFont_wght.ttf")) {
         std::cerr << "Error loading font from path: Roboto-Black.ttf\n";
-        return -1;
+        //return -1;
     }
+
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     sf::Text ballCountText;
     ballCountText.setFont(font);
     ballCountText.setCharacterSize(16);
-    ballCountText.setFillColor(sf::Color::White);
+    ballCountText.setFillColor(sf::Color::Green);
     ballCountText.setPosition(10,10);
 
     CirclePhysics physics;
@@ -47,17 +49,27 @@ int main()
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            float radius = rand() % 100 + 1;
+            float radius = rand() % 10;
             Ball newBall(mousePos.x,mousePos.y,radius);
             newBall.setAcceleration(0,9.8);
             physics.addBall(newBall);
         }
+
+
+        if(physics.getBallCount() < 100) {
+            Ball randomBalls(std::rand() % 2560, std::rand() % 1440, 15);
+            randomBalls.setAcceleration(0,90.8);
+            physics.addBall(randomBalls);
+        }
+
         physics.updateAll(deltaTime);
+
 
         ballCountText.setString("Ball count:" + std::to_string(physics.getBallCount()));
 
         window.clear(sf::Color::Black);
         physics.renderAll(window);
+        window.draw(ballCountText);
         window.display();
     }
 }

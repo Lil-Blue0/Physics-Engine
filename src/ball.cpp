@@ -7,6 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 
 class Ball {
@@ -15,10 +17,21 @@ private:
     float vx, vy; // velocity
     float ax, ay; /// acceleration
     float radius;
+    sf::Color color;
+    sf::CircleShape shape;
     int id;
 
 public:
-    Ball(float x, float y, float r) : px(x), py(y), radius(r), vx(0), vy(0), ax(0), ay(0){}
+    Ball(float x, float y, float r) : px(x), py(y), radius(r), vx(0), vy(0), ax(0), ay(0) {
+        color = sf::Color(
+            std::rand() % 256,
+            std::rand() % 256,
+            std::rand() % 256);
+    }
+
+    sf::Vector2f getPosition() const {
+        return sf::Vector2f(px, py);
+    }
 
     void update(float deltaTime) {
         vx += ax * deltaTime;
@@ -26,12 +39,18 @@ public:
 
         px += vx * deltaTime;
         py += vy * deltaTime;
+
+        shape.setPosition(px,py);
+
     }
+
+
 
     sf::CircleShape getShape() const {
         sf::CircleShape shape(radius);
         shape.setPosition(px, py);
         shape.setOrigin(radius, radius);
+        shape.setFillColor(color);
         return shape;
     }
 
@@ -54,6 +73,12 @@ public:
         for (Ball& ball: balls) {
             ball.update(deltaTime);
         }
+
+        balls.erase(std::remove_if(balls.begin(), balls.end(),
+            [](const Ball& ball) {
+                    return ball.getPosition().y > 1440;
+        }),
+        balls.end());
     }
 
     void renderAll(sf::RenderWindow& window) {
